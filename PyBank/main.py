@@ -1,21 +1,31 @@
 import os
-import csv
+import csv 
+import enum
 
+minp= []
 csvpath = os.path.join("Resources", "budget_data.csv")
 
-with open(csvpath, encoding="utf8") as csvfile:
+with open(csvpath, 'r') as csvfile:
     reader = csv.reader(csvfile, delimiter=",")
-
+    next(reader)
     data = list(reader)
     row_count = len(data)
-
-    for line in reader.readlines():
-        columns = line.split(",")
-        value = columns[1]
-        Sum += value
-        print(sum)
+    t = sum(float(row[1]) for row in data)
+    average = t / row_count
+    for row in data:
+        minp.append(row[1])
 
     
-    
-    
-    print("Total Months: " + str(row_count))
+print("Financial Analysis")    
+print("----------------------------")
+print("Total Months: " + str(row_count))
+print("Total: " + str(t))
+print("Average Change: " + str(average))
+print("Greatest increase in profit: " + max(minp))
+print("Greatest decrease in profit: " + min(minp))
+print("----------------------------")
+
+output_file = os.path.join("analysis", "Analysis.csv")
+
+with open(output_file, "w") as datafile:
+    writer = csv.writer(datafile)
